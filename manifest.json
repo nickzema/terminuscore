@@ -1,20 +1,20 @@
 {
-  "manifest_version": 2,
-  "name": "Lion Dragon Sheet",
+  "manifest_version": 1,
+  "name": "Terminus Core Rules",
   "version": "1.1.8",
   "author": "Nick Zema",
-  "description": "A form-fillable character sheet for the Lion & Dragon RPG.",
+  "description": "An indexed rules reference for Terminus, an RPG created using EZD6",
   
   "action": {
-    "title": "L&D Character Sheet",
+    "title": "Terminus - Core Rules",
     "icon": "https://img.icons8.com/ios-filled/50/000000/scroll.png",
-    "popover": "https://nickzema.github.io/ldsheets/index.html"
+    "popover": "https://nickzema.github.io/terminuscore/index.html"
   },
   
   "permissions": [
     {
       "name": "autoplay", 
-      "reason": "Allows the sheet to be viewed correctly within Owlbear Rodeo."
+      "reason": "Carryover from L&D Sheet."
     }
   ]
 }
