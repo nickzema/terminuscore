@@ -1,0 +1,1698 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Terminus: OSR-styled Apocalyptic Survival Horror RPG for EZD6</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #2a2a2a;
+            background: linear-gradient(to bottom, #1a1a1a, #3a3a3a);
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #f5f5f0;
+            box-shadow: 0 0 30px rgba(0,0,0,0.8);
+            padding: 40px;
+        }
+
+        header {
+            text-align: center;
+            border-bottom: 4px solid #8b0000;
+            padding-bottom: 30px;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #3a2a2a 100%);
+            color: #fff;
+            padding: 40px 20px;
+            margin: -40px -40px 40px -40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            font-size: 3em;
+            color: #8b0000;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+            margin-bottom: 10px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            color: #ccc;
+            font-style: italic;
+            margin-top: 10px;
+        }
+
+        nav {
+            background: #2a2a2a;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-left: 5px solid #8b0000;
+            position: relative;
+            z-index: 100;
+        }
+
+        .nav-toggle {
+            display: none;
+            background: #8b0000;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            font-size: 1.1em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .nav-toggle:hover {
+            background: #a00000;
+        }
+
+        .nav-content.collapsed {
+            display: none;
+        }
+
+        @media (max-width: 1024px) {
+            nav {
+                position: relative;
+            }
+
+            .nav-toggle {
+                display: block;
+            }
+
+            .nav-content {
+                max-height: 400px;
+                overflow-y: auto;
+            }
+        }
+
+        nav h2 {
+            color: #8b0000;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav li {
+            margin: 8px 0;
+        }
+
+        nav a {
+            color: #ddd;
+            text-decoration: none;
+            padding: 5px 10px;
+            display: block;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        nav a:hover {
+            color: #fff;
+            background: #3a3a3a;
+            border-left-color: #8b0000;
+            padding-left: 15px;
+        }
+
+        h2 {
+            color: #8b0000;
+            font-size: 2em;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #8b0000;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h3 {
+            color: #5a0000;
+            font-size: 1.5em;
+            margin: 30px 0 15px 0;
+            padding-left: 10px;
+            border-left: 5px solid #8b0000;
+        }
+
+        h4 {
+            color: #3a3a3a;
+            font-size: 1.2em;
+            margin: 20px 0 10px 0;
+            font-weight: bold;
+        }
+
+        p {
+            margin: 15px 0;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 15px 0 15px 30px;
+        }
+
+        li {
+            margin: 8px 0;
+        }
+
+        .section {
+            margin-bottom: 50px;
+            padding: 20px;
+            background: #fff;
+            border-left: 5px solid #8b0000;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .highlight-box {
+            background: #fff5e6;
+            border: 2px solid #8b0000;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .warning-box {
+            background: #ffe6e6;
+            border: 2px solid #cc0000;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+
+        .stat-block {
+            background: #f0f0f0;
+            border: 2px solid #666;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .character-path {
+            background: #2a2a2a;
+            color: #fff;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 5px solid #8b0000;
+        }
+
+        .character-path h4 {
+            color: #8b0000;
+            font-size: 1.4em;
+            margin-bottom: 10px;
+        }
+
+        .character-path em {
+            color: #aaa;
+            display: block;
+            margin-bottom: 15px;
+            font-style: italic;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #fff;
+        }
+
+        th {
+            background: #2a2a2a;
+            color: #fff;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+        }
+
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background: #f9f9f9;
+        }
+
+        .dice-roll {
+            display: inline-block;
+            background: #8b0000;
+            color: #fff;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-family: 'Courier New', monospace;
+        }
+
+        .character-sheet {
+            background: #f9f9f9;
+            border: 3px solid #2a2a2a;
+            padding: 30px;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+
+        .checkbox {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #2a2a2a;
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+
+        strong {
+            color: #8b0000;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding-top: 30px;
+            border-top: 3px solid #8b0000;
+            color: #666;
+            font-style: italic;
+        }
+
+        .scenario-box {
+            background: #e8f4f8;
+            border: 3px solid #4a7a8c;
+            padding: 20px;
+            margin: 25px 0;
+            border-radius: 8px;
+        }
+
+        .scenario-box h3 {
+            color: #2a4a5c;
+            border-left-color: #4a7a8c;
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                box-shadow: none;
+            }
+            nav {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            h1 {
+                font-size: 2em;
+            }
+            h2 {
+                font-size: 1.5em;
+            }
+        }
+
+        code {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+
+        .rule-reminder {
+            background: #fff9e6;
+            border-left: 4px solid #ffcc00;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        hr {
+            border: none;
+            border-top: 2px solid #8b0000;
+            margin: 30px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>TERMINUS</h1>
+            <div class="subtitle">Explore & Scavenge. Survive ...or Die</div>
+            <div class="subtitle" style="font-size: 1em; margin-top: 20px;">OSR-styled Apocalyptic Survival Horror RPG for EZD6</div>
+        </header>
+
+        <nav>
+            <button class="nav-toggle" onclick="toggleNav()">☰ Table of Contents (Click to Toggle)</button>
+            <div class="nav-content" id="navContent">
+                <h2>Table of Contents</h2>
+                <ul>
+                    <li><a href="#core-system">1. Core System Overview</a></li>
+                    <li><a href="#character-creation">2. Character Creation</a></li>
+                    <li><a href="#combat-survival">3. Combat & Survival Rules</a></li>
+                    <li><a href="#resources">4. Resources & Scavenging</a></li>
+                    <li><a href="#threats">5. Threats & Enemies</a></li>
+                    <li><a href="#running-game">6. Running the Game</a></li>
+                    <li><a href="#campaign">7. Campaign Framework</a></li>
+                    <li><a href="#reference">Quick Reference Tables</a></li>
+                    <li><a href="#scenario">Sample Scenario</a></li>
+                    <li><a href="#character-sheet">Character Sheet</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <!-- PART ONE -->
+        <div class="section" id="core-system">
+            <h2>Part One: Core System Overview</h2>
+
+            <div class="highlight-box">
+                <h3>The EZd6 Rule</h3>
+                <p><strong>Roll 1d6, meet or beat the target number to succeed.</strong></p>
+            </div>
+
+            <h3>Difficulty Scale</h3>
+            <ul>
+                <li><strong>Easy (2):</strong> Simple tasks, slow walkers</li>
+                <li><strong>Normal (3):</strong> Standard actions, normal threats</li>
+                <li><strong>Hard (4):</strong> Challenging actions, fast infected</li>
+                <li><strong>Very Hard (5):</strong> Extreme danger, elite threats</li>
+                <li><strong>Super Hard (6):</strong> Near-impossible, ultimate challenges</li>
+            </ul>
+
+            <h3>Core Mechanics</h3>
+            <div class="warning-box">
+                <p><strong>1's ALWAYS FAIL</strong> - Critical failures, devastating consequences</p>
+                <p><strong>6's ALWAYS SUCCEED</strong> - Critical success, best possible outcome</p>
+                <p><strong>6's EXPLODE</strong> - On combat rolls, deal 1 Strike and roll again</p>
+            </div>
+
+            <h3>Boons & Banes</h3>
+            <ul>
+                <li><strong>BOON:</strong> Roll an extra d6, choose highest result</li>
+                <li><strong>BANE:</strong> Roll an extra d6, choose lowest result</li>
+                <li>Multiple boons/banes stack</li>
+            </ul>
+
+            <h3>Resolve System</h3>
+            <ul>
+                <li>Start each session with <strong>3 Resolve</strong></li>
+                <li>Earn <strong>1 Resolve</strong> on any failed roll (limit once per turn)</li>
+                <li>Earn <strong>1 Resolve</strong> for excellent roleplay (GM reward)</li>
+                <li><strong>SPEND Resolve:</strong> Add to any roll (except 1's, cannot use on Miracle rolls)</li>
+                <li><strong>SPEND 5 Resolve:</strong> Replenish your Plot Armor</li>
+            </ul>
+
+            <h3>Plot Armor</h3>
+            <ul>
+                <li>Receive <strong>1 Plot Armor</strong> at session start</li>
+                <li><strong>Spend</strong> to re-roll any single die</li>
+                <li>Can be replenished with 5 Resolve</li>
+            </ul>
+
+            <h3>Time & Distance</h3>
+            <h4>DISTANCE:</h4>
+            <ul>
+                <li><strong>Near:</strong> Less than 30 feet</li>
+                <li><strong>Far:</strong> More than 30 feet</li>
+            </ul>
+
+            <h4>TIME PER TURN:</h4>
+            <ul>
+                <li><strong>Move Action:</strong> 30 feet of movement</li>
+                <li><strong>Turn Action:</strong> Attack, Use item, Interact, Move again</li>
+                <li><strong>Free Action:</strong> Draw weapon, Shout, Drop item</li>
+            </ul>
+
+            <h4>INITIATIVE:</h4>
+            <p>Unless ambushed, survivors always go first, in any order they choose.</p>
+        </div>
+
+        <!-- PART TWO -->
+        <div class="section" id="character-creation">
+            <h2>Part Two: Character Creation</h2>
+
+            <h3>Step 1: Choose Your Survivor Path</h3>
+
+            <div class="character-path">
+                <h4>THE FIGHTER</h4>
+                <em>Former police, military, or just someone who learned to survive</em>
+                <p><strong>Stats:</strong> 3 Strikes, Armor 5, Miracle 6</p>
+                <p><strong>Boons:</strong> Melee Combat, Strength</p>
+                <p><strong>Special Abilities:</strong></p>
+                <ul>
+                    <li><strong>Last Stand:</strong> Free action - Sacrifice 1 Strike to make an extra attack this turn</li>
+                    <li><strong>Tactical Awareness:</strong> Gain a boon when defending against human attackers</li>
+                    <li><strong>Heavy Weapons:</strong> When using two-handed weapons (sledgehammer, axe), crit on 5-6</li>
+                </ul>
+            </div>
+
+            <div class="character-path">
+                <h4>THE SCAVENGER</h4>
+                <em>Quick, clever, and always finds what the group needs</em>
+                <p><strong>Stats:</strong> 3 Strikes, Armor 6, Miracle 6</p>
+                <p><strong>Boons:</strong> Stealth, Scavenging</p>
+                <p><strong>Special Abilities:</strong></p>
+                <ul>
+                    <li><strong>Nimble:</strong> Free action - Cancel one melee Strike against you</li>
+                    <li><strong>Lucky Find:</strong> When scavenging, gain a boon to rolls</li>
+                    <li><strong>Sneak Attack:</strong> When attacking surprised or flanked enemies, attack twice</li>
+                </ul>
+            </div>
+
+            <div class="character-path">
+                <h4>THE MEDIC</h4>
+                <em>Doctor, nurse, EMT, or battlefield medic</em>
+                <p><strong>Stats:</strong> 3 Strikes, Armor 5, Miracle 5</p>
+                <p><strong>Boons:</strong> Medicine, Resist Disease</p>
+                <p><strong>Special Abilities:</strong></p>
+                <ul>
+                    <li><strong>Field Medicine:</strong> Free action - Heal 1 Strike on ally by taking 1 Strike yourself</li>
+                    <li><strong>Emergency Care:</strong> 1/day (regain for 5 Resolve) - Roll 1d6 per target in Near range, heal 1 Strike on 4+</li>
+                    <li><strong>Immunity Boost:</strong> Party gains boon against infection/disease</li>
+                </ul>
+            </div>
+
+            <div class="character-path">
+                <h4>THE SURVIVOR</h4>
+                <em>Tough as nails, been through hell and back</em>
+                <p><strong>Stats:</strong> 5 Strikes, Armor 6, Miracle 6</p>
+                <p><strong>Boons:</strong> Endurance, Strength</p>
+                <p><strong>Special Abilities:</strong></p>
+                <ul>
+                    <li><strong>Iron Will:</strong> Boon against fear and psychological effects</li>
+                    <li><strong>Shrug It Off:</strong> Sacrifice 1 Strike to deal an extra Strike in melee</li>
+                    <li><strong>Unstoppable:</strong> When reduced to 0 Strikes, roll 4+ to remain conscious with 1 Strike</li>
+                </ul>
+            </div>
+
+            <div class="character-path">
+                <h4>THE LEADER</h4>
+                <em>Sheriff, teacher, community organizer - someone people follow</em>
+                <p><strong>Stats:</strong> 3 Strikes, Armor 5, Miracle 5</p>
+                <p><strong>Boons:</strong> Leadership, Persuasion</p>
+                <p><strong>Special Abilities:</strong></p>
+                <ul>
+                    <li><strong>Inspiring Presence:</strong> Can spend your Resolve on any ally you can see</li>
+                    <li><strong>Rally:</strong> Once per scene, all Near allies gain a boon on their next roll</li>
+                    <li><strong>Tactical Command:</strong> During group actions, grant boon to coordinated tasks</li>
+                </ul>
+            </div>
+
+            <div class="character-path">
+                <h4>THE ENGINEER</h4>
+                <em>Mechanic, electrician, craftsperson - keeps things running</em>
+                <p><strong>Stats:</strong> 3 Strikes, Armor 5, Miracle 6</p>
+                <p><strong>Boons:</strong> Repair, Crafting</p>
+                <p><strong>Special Abilities:</strong></p>
+                <ul>
+                    <li><strong>Jury-Rig:</strong> Can repair or create items with scavenged parts</li>
+                    <li><strong>Fortify:</strong> Improve defenses of safe houses (takes time)</li>
+                    <li><strong>Improvise:</strong> Create makeshift weapons, tools, or traps with boon</li>
+                </ul>
+            </div>
+
+            <div class="character-path">
+                <h4>THE HUNTER</h4>
+                <em>Outdoorsperson, sniper, tracker</em>
+                <p><strong>Stats:</strong> 3 Strikes, Armor 5, Miracle 6</p>
+                <p><strong>Boons:</strong> Ranged Combat, Tracking</p>
+                <p><strong>Special Abilities:</strong></p>
+                <ul>
+                    <li><strong>Dead Eye:</strong> Boon on ranged attacks</li>
+                    <li><strong>Tracker:</strong> Can follow trails and identify signs</li>
+                    <li><strong>Silent Kill:</strong> Stealth kills against unaware targets require no roll</li>
+                </ul>
+            </div>
+
+            <div class="character-path">
+                <h4>THE RUNNER</h4>
+                <em>Parkour enthusiast, athlete, courier</em>
+                <p><strong>Stats:</strong> 3 Strikes, Armor 6, Miracle 6</p>
+                <p><strong>Boons:</strong> Acrobatics, Athletics</p>
+                <p><strong>Special Abilities:</strong></p>
+                <ul>
+                    <li><strong>Fast Movement:</strong> Can move twice in one turn without using Turn Action</li>
+                    <li><strong>Escape Artist:</strong> Boon on Armor and Miracle saves</li>
+                    <li><strong>Evasive:</strong> Only be knocked prone by a critical hit</li>
+                </ul>
+            </div>
+
+            <h3>Step 2: Choose Background</h3>
+            <p>Pick or roll <span class="dice-roll">1d6</span>:</p>
+            <ol>
+                <li><strong>Military/Law Enforcement</strong> - Boon to firearms and tactics</li>
+                <li><strong>Medical Professional</strong> - Start with Medical Kit (6 uses)</li>
+                <li><strong>Blue Collar Worker</strong> - Boon to repair and physical labor</li>
+                <li><strong>White Collar Professional</strong> - Boon to negotiation and knowledge</li>
+                <li><strong>Student/Young Adult</strong> - Start with 2 Plot Armor instead of 1</li>
+                <li><strong>Criminal/Outcast</strong> - Boon to stealth and lockpicking</li>
+            </ol>
+
+            <h3>Step 3: Choose Two Skills</h3>
+            <p>(Three if you take "Well-Rounded" background)</p>
+
+            <h4>Combat Skills:</h4>
+            <ul>
+                <li><strong>Brawler</strong> - Boon in unarmed/improvised weapon combat</li>
+                <li><strong>Marksman</strong> - Boon on ranged attacks</li>
+                <li><strong>Blade Specialist</strong> - Boon with knives, machetes, axes</li>
+            </ul>
+
+            <h4>Survival Skills:</h4>
+            <ul>
+                <li><strong>Forager</strong> - Find food/water in wilderness</li>
+                <li><strong>Tracker</strong> - Follow trails and read signs</li>
+                <li><strong>First Aid</strong> - Heal 1 Strike between scenes (limited supplies)</li>
+                <li><strong>Mechanic</strong> - Repair vehicles and machinery</li>
+                <li><strong>Lockpicking</strong> - Open locked doors/containers (tools break on 1)</li>
+            </ul>
+
+            <h4>Social Skills:</h4>
+            <ul>
+                <li><strong>Negotiator</strong> - Boon to social interactions</li>
+                <li><strong>Intimidating</strong> - Boon to threaten/scare</li>
+                <li><strong>Read People</strong> - Detect lies and intentions</li>
+            </ul>
+
+            <h4>Specialized Skills:</h4>
+            <ul>
+                <li><strong>Trap Maker</strong> - Create and disable traps</li>
+                <li><strong>Urban Navigator</strong> - Never lost in cities</li>
+                <li><strong>Quick Reflexes</strong> - Cannot be surprised</li>
+                <li><strong>Iron Stomach</strong> - Can eat questionable food safely</li>
+                <li><strong>Light Sleeper</strong> - Boon to avoid nighttime ambushes</li>
+                <li><strong>Scrounger</strong> - Find hidden supplies with boon</li>
+            </ul>
+
+            <h3>Step 4: Choose Two Personal Aspects</h3>
+            <p>These define your character's personality and backstory:</p>
+            <ul>
+                <li>Lost family in the outbreak</li>
+                <li>Former group betrayed you</li>
+                <li>Searching for someone</li>
+                <li>Oath to protect the innocent</li>
+                <li>Haunted by what you've done</li>
+                <li>Refuses to kill the living</li>
+                <li>Dark sense of humor</li>
+                <li>Natural leader</li>
+                <li>Lone wolf personality</li>
+                <li>Optimist despite everything</li>
+                <li>Keeps detailed journal</li>
+                <li>Has a "lucky" item</li>
+                <li>Brilliant under pressure</li>
+                <li>Freezes in social situations</li>
+                <li>Collector of pre-outbreak memorabilia</li>
+                <li>Always has an exit plan</li>
+            </ul>
+
+            <h3>Step 5: Choose Starting Equipment</h3>
+            
+            <h4>PRIMARY WEAPON (Pick one):</h4>
+            <ul>
+                <li>Baseball Bat (melee, reliable)</li>
+                <li>Crowbar (melee, also a tool)</li>
+                <li>Fire Axe (melee, two-handed, powerful)</li>
+                <li>Hunting Rifle (ranged, limited ammo)</li>
+                <li>Pistol (ranged, easier to find ammo)</li>
+                <li>Compound Bow (ranged, reusable ammo, silent)</li>
+                <li>Kitchen Knife (melee, concealable)</li>
+                <li>Sledgehammer (melee, two-handed, devastating)</li>
+            </ul>
+
+            <h4>SECONDARY WEAPON/TOOL (Pick one):</h4>
+            <ul>
+                <li>Knife</li>
+                <li>Hatchet</li>
+                <li>Screwdriver</li>
+                <li>Flashlight (battery dependent)</li>
+                <li>Road flare (2 uses)</li>
+                <li>Pepper spray (3 uses)</li>
+            </ul>
+
+            <h4>SURVIVAL GEAR</h4>
+            <p>Roll <span class="dice-roll">1d6</span> on each group or pick:</p>
+
+            <table>
+                <tr>
+                    <th>Group 1</th>
+                    <th>Group 2</th>
+                    <th>Group 3</th>
+                </tr>
+                <tr>
+                    <td>1. Rope (50')</td>
+                    <td>1. First aid kit (3 uses)</td>
+                    <td>1. Binoculars</td>
+                </tr>
+                <tr>
+                    <td>2. Tarp</td>
+                    <td>2. Canned food (3 meals)</td>
+                    <td>2. Walkie-talkie (pair)</td>
+                </tr>
+                <tr>
+                    <td>3. Duct tape</td>
+                    <td>3. Blanket</td>
+                    <td>3. Sleeping bag</td>
+                </tr>
+                <tr>
+                    <td>4. Lighter</td>
+                    <td>4. Multi-tool</td>
+                    <td>4. Matches (waterproof)</td>
+                </tr>
+                <tr>
+                    <td>5. Backpack</td>
+                    <td>5. Batteries (6)</td>
+                    <td>5. Compass</td>
+                </tr>
+                <tr>
+                    <td>6. Water bottle</td>
+                    <td>6. Map of local area</td>
+                    <td>6. Fishing line & hooks</td>
+                </tr>
+            </table>
+
+            <h3>Step 6: Choose a Personal Memento</h3>
+            <p>A small item of personal significance. Once per session, recall a memory connected to it and earn 2 Resolve. Each time you use this, reveal a new detail about your past.</p>
+            <p><strong>Examples:</strong> Photo, wedding ring, child's toy, dog tags, lucky coin, watch, letter</p>
+        </div>
+
+        <!-- PART THREE -->
+        <div class="section" id="combat-survival">
+            <h2>Part Three: Combat & Survival Rules</h2>
+
+            <h3>Combat Basics</h3>
+
+            <h4>ATTACKING:</h4>
+            <ul>
+                <li>Roll 1d6, need 3+ to hit</li>
+                <li>Apply boons/banes as appropriate</li>
+                <li>On hit, target takes 1 Strike</li>
+                <li>On 6, deal 1 Strike and roll again (exploding)</li>
+            </ul>
+
+            <h4>TO-HIT MODIFIERS:</h4>
+            <ul>
+                <li><strong>Near range, clear shot:</strong> Normal (3)</li>
+                <li><strong>Far range:</strong> Hard (4)</li>
+                <li><strong>Target in cover:</strong> Bane to attack</li>
+                <li><strong>Flanking/surprise:</strong> Boon to attack</li>
+                <li><strong>Shooting in melee:</strong> Bane to attack</li>
+            </ul>
+
+            <h4>BEING HIT:</h4>
+            <p>When hit, you may:</p>
+            <ol>
+                <li><strong>Roll Armor Save:</strong> Roll 1d6, meet or beat your Armor number to ignore the Strike</li>
+                <li><strong>Take the Strike:</strong> Reduce your Strike total by 1</li>
+            </ol>
+
+            <div class="warning-box">
+                <h4>STRIKES (Health):</h4>
+                <ul>
+                    <li>Most survivors have 3-5 Strikes</li>
+                    <li>At 0 Strikes: Unconscious or dead (GM discretion)</li>
+                    <li>Tough survivors might get one last 4+ roll to stay conscious at 0</li>
+                </ul>
+            </div>
+
+            <h3>Weapon Types</h3>
+
+            <h4>MELEE WEAPONS:</h4>
+            <ul>
+                <li><strong>Light</strong> (knife, hatchet): No modifier</li>
+                <li><strong>Medium</strong> (bat, crowbar, machete): Standard damage</li>
+                <li><strong>Heavy</strong> (axe, sledgehammer): Two-handed, crit on 5-6, bane if exhausted</li>
+                <li><strong>Improvised</strong> (pipe, chair leg): Bane to attack, breaks on 1</li>
+            </ul>
+
+            <h4>RANGED WEAPONS:</h4>
+            <ul>
+                <li><strong>Pistol:</strong> Near range normal, Far range hard, common ammo</li>
+                <li><strong>Rifle:</strong> Far range normal, powerful but loud</li>
+                <li><strong>Shotgun:</strong> Near range with boon, useless at Far range, devastating</li>
+                <li><strong>Bow/Crossbow:</strong> Silent, reusable ammo, needs time to reload</li>
+                <li><strong>Thrown</strong> (molotov, grenade): One use, affects area</li>
+            </ul>
+
+            <h4>AMMUNITION:</h4>
+            <p>Track ammo loosely. After extended combat, roll <span class="dice-roll">1d6</span>:</p>
+            <ul>
+                <li>1-2: Low on ammo (disadvantage)</li>
+                <li>3-4: Half depleted</li>
+                <li>5-6: Plenty left</li>
+            </ul>
+
+            <h3>Special Combat Actions</h3>
+
+            <div class="stat-block">
+                <strong>HEADSHOT (Walkers):</strong><br>
+                • Declare headshot before rolling<br>
+                • Need 5+ to hit (Very Hard)<br>
+                • Instantly kills standard walker<br>
+                • Use Resolve to improve chances
+            </div>
+
+            <div class="stat-block">
+                <strong>STEALTH KILL:</strong><br>
+                • Against unaware target<br>
+                • Roll Stealth vs. their Awareness (usually 3)<br>
+                • Success = silent kill, no alert<br>
+                • Failure = alert nearby threats
+            </div>
+
+            <div class="stat-block">
+                <strong>GRAPPLE/ESCAPE:</strong><br>
+                • Opposed roll: highest wins<br>
+                • While grappled: bane on all actions except breaking free<br>
+                • Walkers grapple to bite (see Infection)
+            </div>
+
+            <div class="stat-block">
+                <strong>DESPERATE DEFENSE:</strong><br>
+                • When surrounded or overwhelmed<br>
+                • Declare you're fighting defensively<br>
+                • Bane to attacks, but boon to Armor saves
+            </div>
+
+            <div class="stat-block">
+                <strong>COVERING FIRE:</strong><br>
+                • Use Turn Action to suppress area<br>
+                • Allies gain boon to cross/escape<br>
+                • Consumes extra ammo
+            </div>
+
+            <h3>Infection & Death</h3>
+
+            <div class="warning-box">
+                <h4>WALKER BITES:</h4>
+                <p>When a walker successfully grapples and bites:</p>
+                <ul>
+                    <li>Immediately take 1 Strike</li>
+                    <li>Must make Miraculous Save (roll your Miracle number)</li>
+                    <li><strong>Success:</strong> No infection</li>
+                    <li><strong>Failure:</strong> Infected - will turn in 1d6 hours (GM tracks secretly)</li>
+                </ul>
+
+                <h4>INFECTED STATUS:</h4>
+                <ul>
+                    <li>No cure</li>
+                    <li>Character becomes increasingly ill</li>
+                    <li>Final moments are between player and GM</li>
+                    <li>Can choose heroic sacrifice</li>
+                    <li>Will reanimate as walker if brain isn't destroyed</li>
+                </ul>
+
+                <h4>DEATH:</h4>
+                <ul>
+                    <li>At 0 Strikes: Usually unconscious or dying</li>
+                    <li>GM may allow "death saves" (Miracle roll)</li>
+                    <li>Heroic sacrifices always allowed</li>
+                    <li>Always destroy the brain of the dead</li>
+                </ul>
+            </div>
+
+            <h3>Environmental Hazards</h3>
+
+            <h4>EXHAUSTION:</h4>
+            <ul>
+                <li>After extended action without rest: bane to all rolls</li>
+                <li>Need 6+ hours sleep to recover</li>
+                <li>Can push through with Resolve</li>
+            </ul>
+
+            <h4>STARVATION:</h4>
+            <ul>
+                <li>After 3 days without food: lose 1 Strike per day</li>
+                <li>These Strikes only recover with proper meals</li>
+            </ul>
+
+            <h4>DEHYDRATION:</h4>
+            <ul>
+                <li>After 1 day without water: bane to all rolls</li>
+                <li>After 2 days: lose 1 Strike per day</li>
+                <li>Critical - faster than starvation</li>
+            </ul>
+
+            <h4>EXPOSURE:</h4>
+            <ul>
+                <li>Extreme weather without shelter: Miracle save or lose 1 Strike</li>
+                <li>Hypothermia/heatstroke serious threats</li>
+            </ul>
+
+            <h4>NOISE:</h4>
+            <ul>
+                <li>Gunshots: Alert walkers within Far range</li>
+                <li>Loud actions: Alert walkers within Near range</li>
+                <li>Stealth: Move slowly and quietly to avoid detection</li>
+            </ul>
+        </div>
+
+        <!-- PART FOUR -->
+        <div class="section" id="resources">
+            <h2>Part Four: Resources & Scavenging</h2>
+
+            <h3>Scavenging System</h3>
+
+            <p>When searching for supplies, roll <span class="dice-roll">1d6 + BOONS</span>:</p>
+
+            <table>
+                <tr>
+                    <th>Roll</th>
+                    <th>Result</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Nothing usable, walkers alerted</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Nothing found</td>
+                </tr>
+                <tr>
+                    <td>3-4</td>
+                    <td>Common supplies (food, water, basic items)</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Useful find (weapon, medicine, tools)</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Jackpot! (multiple items or rare find)</td>
+                </tr>
+            </table>
+
+            <h4>LOCATION MODIFIERS:</h4>
+            <ul>
+                <li><strong>Pharmacy:</strong> Boon to find medicine</li>
+                <li><strong>Gun Store:</strong> Boon to find weapons/ammo (likely looted/dangerous)</li>
+                <li><strong>Grocery Store:</strong> Boon to find food (mostly empty by now)</li>
+                <li><strong>Hardware Store:</strong> Boon to find tools/supplies</li>
+                <li><strong>Residential:</strong> General supplies</li>
+                <li><strong>Abandoned Camp:</strong> Potentially dangerous, possibly well-supplied</li>
+            </ul>
+
+            <h4>TIME & RISK:</h4>
+            <ul>
+                <li><strong>Quick search:</strong> 10 minutes, bane to roll</li>
+                <li><strong>Thorough search:</strong> 1 hour, normal roll</li>
+                <li><strong>Deep search:</strong> 3+ hours, boon to roll, higher danger</li>
+            </ul>
+
+            <h3>Supply Management</h3>
+
+            <h4>FOOD RATIONS:</h4>
+            <ul>
+                <li>Need 1 meal/day to avoid starvation</li>
+                <li>Canned goods (never spoils)</li>
+                <li>Dry goods (flour, rice - needs cooking)</li>
+                <li>Fresh food (spoils in days)</li>
+                <li>Hunting/foraging (requires skill/time)</li>
+            </ul>
+
+            <h4>WATER:</h4>
+            <ul>
+                <li>Need 1 bottle/day to avoid dehydration</li>
+                <li>Bottled water (safe)</li>
+                <li>Found water (needs purification)</li>
+                <li>Rain collection (needs container)</li>
+                <li>Stream/lake water (risky)</li>
+            </ul>
+
+            <h4>MEDICINE & SUPPLIES:</h4>
+            <ul>
+                <li><strong>First Aid Kit:</strong> Heal 1 Strike (limited uses)</li>
+                <li><strong>Antibiotics:</strong> Prevent infection from injuries</li>
+                <li><strong>Painkillers:</strong> Ignore 1 Strike of penalty for 1 scene</li>
+                <li><strong>Bandages:</strong> Stabilize bleeding wounds</li>
+            </ul>
+
+            <h4>AMMUNITION:</h4>
+            <p>Track by category, not individual bullets:</p>
+            <ul>
+                <li><strong>Plentiful:</strong> No issues</li>
+                <li><strong>Limited:</strong> Bane when using</li>
+                <li><strong>Nearly Empty:</strong> 4+ to not run out</li>
+                <li><strong>Empty:</strong> Must scavenge more</li>
+            </ul>
+
+            <h4>FUEL:</h4>
+            <p>Essential for vehicles and generators:</p>
+            <ul>
+                <li><strong>Cars:</strong> Typically 1-2 tanks found</li>
+                <li><strong>Generators:</strong> Loud, attract attention</li>
+                <li><strong>Cooking:</strong> Propane, firewood, etc.</li>
+            </ul>
+
+            <h3>Crafting & Modification</h3>
+
+            <p>With proper skills and time, create:</p>
+
+            <h4>IMPROVISED WEAPONS:</h4>
+            <ul>
+                <li>Nail bat (bat + nails): Better than standard bat</li>
+                <li>Spear (pole + knife): Reach weapon</li>
+                <li>Molotov cocktail (bottle + fuel + rag): Area damage</li>
+                <li>Suppressor (oil filter + duct tape): Reduce gun noise once</li>
+            </ul>
+
+            <h4>DEFENSIVE ITEMS:</h4>
+            <ul>
+                <li>Makeshift armor (+1 to Armor save, heavy)</li>
+                <li>Barricades (secure locations)</li>
+                <li>Tripwires (alert system)</li>
+                <li>Spike traps (1d6 Strike to walkers)</li>
+            </ul>
+
+            <h4>UTILITY ITEMS:</h4>
+            <ul>
+                <li>Water filter (purify water)</li>
+                <li>Radio repair (long-range communication)</li>
+                <li>Vehicle repair (get running)</li>
+            </ul>
+        </div>
+
+        <!-- PART FIVE -->
+        <div class="section" id="threats">
+            <h2>Part Five: Threats & Enemies</h2>
+
+            <h3>Walkers (Zombies)</h3>
+
+            <div class="stat-block">
+                <strong>STANDARD WALKER</strong><br>
+                <em>The shuffling dead</em><br><br>
+                <strong>Strikes:</strong> 1 (destroy head to kill)<br>
+                <strong>To-Hit:</strong> 3<br>
+                <strong>Speed:</strong> Slow, can be outrun<br>
+                <strong>Grapple:</strong> On hit, opposed roll to escape or be bitten<br>
+                <strong>Swarm:</strong> In groups, overwhelm by numbers<br>
+                <strong>Senses:</strong> Attracted to noise, movement, smell<br>
+                <strong>Threat:</strong> Low individually, deadly in numbers
+            </div>
+
+            <h4>WALKER VARIATIONS:</h4>
+
+            <div class="stat-block">
+                <strong>FRESH WALKER</strong> (Recently turned)<br>
+                <strong>To-Hit:</strong> 3 | <strong>Strikes:</strong> 2<br>
+                <strong>Special:</strong> Slightly faster, not fully decayed<br>
+                <strong>Danger:</strong> May still have some coordination
+            </div>
+
+            <div class="stat-block">
+                <strong>CRAWLER</strong> (Partial body)<br>
+                <strong>To-Hit:</strong> 4 (harder to spot) | <strong>Strikes:</strong> 1<br>
+                <strong>Special:</strong> Attacks from ground, ambush predator<br>
+                <strong>Danger:</strong> Easy to miss until too late
+            </div>
+
+            <div class="stat-block">
+                <strong>HORDE</strong> (Not a single enemy but a mass)<br>
+                <strong>Size:</strong> 10-100+ walkers<br>
+                <strong>Mechanics:</strong> Cannot be fought, must be avoided<br>
+                <strong>Effects:</strong> Overwhelm any position within hours<br>
+                <strong>Escape:</strong> Require distraction, stealth, or vehicle<br>
+                <strong>Sound:</strong> Create deafening moaning that attracts more
+            </div>
+
+            <h3>Human Threats</h3>
+
+            <div class="stat-block">
+                <strong>THE DESPERATE</strong><br>
+                People driven to extremes by survival<br><br>
+                <strong>Strikes:</strong> 1-2 | <strong>To-Hit:</strong> 3-4<br>
+                <strong>Equipment:</strong> Basic weapons, little ammo<br>
+                <strong>Behavior:</strong> May beg, threaten, or ambush<br>
+                <strong>Danger:</strong> Unpredictable, may be reasonable
+            </div>
+
+            <div class="stat-block">
+                <strong>BANDITS/RAIDERS</strong><br>
+                Organized groups that take what they want<br><br>
+                <strong>Strikes:</strong> 2-3 | <strong>To-Hit:</strong> 3<br>
+                <strong>Equipment:</strong> Good weapons, some armor<br>
+                <strong>Tactics:</strong> Ambush, intimidation, overwhelming force<br>
+                <strong>Danger:</strong> High - experienced and ruthless
+            </div>
+
+            <div class="stat-block">
+                <strong>BANDIT LEADER</strong><br>
+                <strong>Strikes:</strong> 4 | <strong>To-Hit:</strong> 2 (skilled)<br>
+                <strong>Equipment:</strong> Best weapons, armor (save on 4+)<br>
+                <strong>Special:</strong> Tactical awareness, rallies others<br>
+                <strong>Danger:</strong> Very high - avoid direct conflict
+            </div>
+
+            <div class="stat-block">
+                <strong>HOSTILE COMMUNITY</strong><br>
+                Fortified group protecting their territory<br><br>
+                <strong>Size:</strong> 10-50 members<br>
+                <strong>Equipment:</strong> Various, well-supplied<br>
+                <strong>Behavior:</strong> Defend borders, may negotiate or attack<br>
+                <strong>Danger:</strong> Variable - diplomacy possible but risky
+            </div>
+
+            <div class="stat-block">
+                <strong>THE GOVERNOR/TYRANT</strong><br>
+                Charismatic leader of hostile group<br><br>
+                <strong>Strikes:</strong> 5 | <strong>To-Hit:</strong> 2<br>
+                <strong>Equipment:</strong> Excellent weapons and armor (save on 3+)<br>
+                <strong>Special:</strong> Commands loyalty, tactical genius, ruthless<br>
+                <strong>Minions:</strong> Many followers willing to die for them<br>
+                <strong>Danger:</strong> Extreme - major antagonist threat
+            </div>
+
+            <h3>Animal Threats</h3>
+
+            <div class="stat-block">
+                <strong>FERAL DOGS (Pack)</strong><br>
+                <strong>Strikes:</strong> 1-2 each | <strong>To-Hit:</strong> 3<br>
+                <strong>Pack Tactics:</strong> If 2+ attacking same target, crit on 5+<br>
+                <strong>Speed:</strong> Fast, can chase down runners<br>
+                <strong>Behavior:</strong> Desperate and hungry
+            </div>
+
+            <div class="stat-block">
+                <strong>WILD ANIMALS</strong><br>
+                Bears, wolves, big cats - now without fear of humans<br><br>
+                <strong>Strikes:</strong> 3-5 | <strong>To-Hit:</strong> 2-3<br>
+                <strong>Danger:</strong> High - avoid when possible
+            </div>
+
+            <h3>Environmental Threats</h3>
+
+            <h4>COLLAPSING STRUCTURES:</h4>
+            <ul>
+                <li>Miracle Save (usually 4+) or take 1-3 Strikes</li>
+                <li>Common in decayed cities</li>
+            </ul>
+
+            <h4>FIRES:</h4>
+            <ul>
+                <li>Spread quickly in ruined buildings</li>
+                <li>1 Strike per turn in flames</li>
+                <li>Smoke inhalation: Miracle save or pass out</li>
+            </ul>
+
+            <h4>DISEASE:</h4>
+            <ul>
+                <li>Contaminated water: Miracle save or fall ill</li>
+                <li>Infected wounds: Need antibiotics</li>
+                <li>Illness: Lose 1 Strike, bane to rolls until treated</li>
+            </ul>
+        </div>
+
+        <!-- PART SIX -->
+        <div class="section" id="running-game">
+            <h2>Part Six: Running the Game</h2>
+
+            <h3>GM Principles (The Referee's Guide)</h3>
+
+            <div class="highlight-box">
+                <h4>JUDGMENTS OVER RULES:</h4>
+                <p>The 2-6 difficulty scale is all you need. If players want to attempt something not covered:</p>
+                <ul>
+                    <li>Decide on a difficulty</li>
+                    <li>Consider boons/banes based on situation</li>
+                    <li>For truly exceptional attempts, require confirmed crit (roll 6, then roll again to confirm)</li>
+                </ul>
+            </div>
+
+            <h4>MAKE IT MATTER:</h4>
+            <ul>
+                <li>Every roll should have stakes</li>
+                <li>Success AND failure should move story forward</li>
+                <li>Don't roll if outcome doesn't matter</li>
+            </ul>
+
+            <h4>BE A FAN OF THE SURVIVORS:</h4>
+            <ul>
+                <li>Want to see them succeed BUT...</li>
+                <li>Put them in impossible situations</li>
+                <li>Force hard choices</li>
+                <li>Make them earn victories</li>
+            </ul>
+
+            <h4>TELEGRAPHING DANGER:</h4>
+            <ul>
+                <li>Always give warning before major threats</li>
+                <li>"You hear moaning in the distance..."</li>
+                <li>"The floor creaks ominously..."</li>
+                <li>Let them make informed choices about risk</li>
+            </ul>
+
+            <h3>Building Tension</h3>
+
+            <h4>RESOURCE SCARCITY:</h4>
+            <ul>
+                <li>Start generous, gradually tighten</li>
+                <li>Force choices: "We have 3 bullets and 5 targets..."</li>
+                <li>Medicine running out during illness</li>
+                <li>Vehicle fuel low during escape</li>
+            </ul>
+
+            <h4>TIME PRESSURE:</h4>
+            <ul>
+                <li>"The horde arrives in 1 hour..."</li>
+                <li>"He's turning and you don't know when..."</li>
+                <li>"The sun sets in 30 minutes..."</li>
+            </ul>
+
+            <h4>MORAL DILEMMAS:</h4>
+            <ul>
+                <li>Save the child or the supplies?</li>
+                <li>Accept refugees who might be dangerous?</li>
+                <li>Kill someone who's bitten but not turned?</li>
+                <li>Steal from another group to save yours?</li>
+            </ul>
+
+            <h4>RELATIONSHIP DRAMA:</h4>
+            <ul>
+                <li>Conflicting goals among survivors</li>
+                <li>Romance in the apocalypse</li>
+                <li>Leadership disputes</li>
+                <li>Blame and guilt</li>
+            </ul>
+
+            <h3>Session Structure</h3>
+
+            <ol>
+                <li><strong>OPENING:</strong> Recap previous session, award 3 Resolve and 1 Plot Armor, set the scene</li>
+                <li><strong>EXPLORATION PHASE:</strong> Survivors plan and act, scavenging, travel, interaction, build tension gradually</li>
+                <li><strong>COMPLICATION:</strong> Introduce the problem/threat, escalate stakes, force decisions</li>
+                <li><strong>CLIMAX:</strong> Action sequence or major decision, high stakes, high tension, potentially deadly</li>
+                <li><strong>RESOLUTION:</strong> Consequences of actions, moment to breathe, setup for next session</li>
+                <li><strong>ENDING:</strong> Cliffhanger or quiet moment, award any earned permanent benefits, ask "What's your character thinking/feeling?"</li>
+            </ol>
+
+            <h3>Rewarding Survivors</h3>
+
+            <p>No traditional leveling. Instead, reward through:</p>
+
+            <h4>STORY MILESTONES:</h4>
+            <p>After major accomplishments, survivors grow:</p>
+            <ul>
+                <li>New skill/inclination</li>
+                <li>Additional permanent Plot Armor (start sessions with 2-3)</li>
+                <li>Improved ability</li>
+                <li>Special equipment</li>
+            </ul>
+
+            <h4>FOUND EQUIPMENT:</h4>
+            <ul>
+                <li>Better weapons (silenced pistol, crossbow)</li>
+                <li>Protective gear (motorcycle armor, riot shield)</li>
+                <li>Useful items (night vision, radio)</li>
+            </ul>
+
+            <h4>SAFE PLACES:</h4>
+            <ul>
+                <li>Establish and improve settlements</li>
+                <li>Build defenses</li>
+                <li>Create sustainable food/water</li>
+                <li>Attract other survivors</li>
+            </ul>
+
+            <h4>RELATIONSHIPS:</h4>
+            <ul>
+                <li>Bonds with NPCs matter</li>
+                <li>Community provides resources</li>
+                <li>Personal connections drive stories</li>
+            </ul>
+
+            <h3>Random Encounters</h3>
+
+            <p>Roll <span class="dice-roll">1d6</span>:</p>
+
+            <table>
+                <tr>
+                    <th>In the Wild</th>
+                    <th>In the City</th>
+                </tr>
+                <tr>
+                    <td>1. 1d6 walkers</td>
+                    <td>1. Small horde (10-20 walkers)</td>
+                </tr>
+                <tr>
+                    <td>2. Abandoned vehicle (might have supplies)</td>
+                    <td>2. Looters/bandits</td>
+                </tr>
+                <tr>
+                    <td>3. Survivor camp (friendly/hostile?)</td>
+                    <td>3. Trapped survivors (setup/real?)</td>
+                </tr>
+                <tr>
+                    <td>4. Animal threat</td>
+                    <td>4. Good scavenging spot</td>
+                </tr>
+                <tr>
+                    <td>5. Environmental hazard</td>
+                    <td>5. Dangerous structure</td>
+                </tr>
+                <tr>
+                    <td>6. Another group of survivors</td>
+                    <td>6. Military checkpoint (abandoned/occupied?)</td>
+                </tr>
+            </table>
+
+            <h3>The Safe House</h3>
+
+            <p>A home base for your group:</p>
+
+            <h4>BASIC NEEDS:</h4>
+            <ul>
+                <li>Secure walls/doors</li>
+                <li>Access to water</li>
+                <li>Defendable position</li>
+                <li>Escape routes</li>
+            </ul>
+
+            <h4>IMPROVEMENTS:</h4>
+            <ul>
+                <li>Gardens (sustainable food)</li>
+                <li>Rainwater collection</li>
+                <li>Generators (fuel required)</li>
+                <li>Workshop (crafting)</li>
+                <li>Medical bay (healing)</li>
+                <li>Armory (weapon storage)</li>
+                <li>Watch towers (early warning)</li>
+                <li>Walls (better defense)</li>
+            </ul>
+
+            <h4>THREATS TO HOME:</h4>
+            <ul>
+                <li>Horde migration</li>
+                <li>Bandit raids</li>
+                <li>Disease outbreak</li>
+                <li>Internal conflict</li>
+                <li>Resource depletion</li>
+            </ul>
+        </div>
+
+        <!-- PART SEVEN -->
+        <div class="section" id="campaign">
+            <h2>Part Seven: Campaign Framework</h2>
+
+            <h3>Campaign Phases</h3>
+
+            <div class="highlight-box">
+                <h4>PHASE 1: THE OUTBREAK (Sessions 1-3)</h4>
+                <p><strong>Theme:</strong> Chaos, separation, survival</p>
+                <ul>
+                    <li>Characters meet during initial chaos</li>
+                    <li>Basic survival skills developed</li>
+                    <li>Learn the rules of new world</li>
+                    <li>Lose everything from old life</li>
+                </ul>
+                <p><strong>Key Scenes:</strong> The first walker encounter, losing someone important, finding temporary shelter, meeting other survivors</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>PHASE 2: THE ROAD (Sessions 4-8)</h4>
+                <p><strong>Theme:</strong> Journey, hope, betrayal</p>
+                <ul>
+                    <li>Search for safety/supplies</li>
+                    <li>Encounter other groups</li>
+                    <li>Face human threats</li>
+                    <li>Build group bonds</li>
+                </ul>
+                <p><strong>Key Scenes:</strong> First major scavenging run, encountering hostile survivors, finding signs of safe haven, difficult moral choice</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>PHASE 3: THE COMMUNITY (Sessions 9-15)</h4>
+                <p><strong>Theme:</strong> Home, politics, security</p>
+                <ul>
+                    <li>Establish or join settlement</li>
+                    <li>Deal with group dynamics</li>
+                    <li>Balance safety vs. freedom</li>
+                    <li>Manage resources</li>
+                </ul>
+                <p><strong>Key Scenes:</strong> First night in safety, leadership conflicts, defending home from horde, recruiting/exiling members</p>
+            </div>
+
+            <div class="highlight-box">
+                <h4>PHASE 4: THE WAR (Sessions 16+)</h4>
+                <p><strong>Theme:</strong> Conflict, philosophy, cost</p>
+                <ul>
+                    <li>Face major antagonist group</li>
+                    <li>Question what you've become</li>
+                    <li>Fight for survival of community</li>
+                    <li>Determine future of your world</li>
+                </ul>
+                <p><strong>Key Scenes:</strong> Negotiation breakdown, major battle/siege, assassination/infiltration, final confrontation, aftermath and cost</p>
+            </div>
+
+            <h3>Long-Term Campaign Ideas</h3>
+
+            <ul>
+                <li><strong>THE CARAVAN:</strong> Survivors constantly move, never settling, searching for mythical safe zone</li>
+                <li><strong>THE FORTRESS:</strong> Group secures large compound, deals with expansion, politics, raiders, and hordes</li>
+                <li><strong>THE MISSION:</strong> Specific goal drives group - finding cure, rescuing loved ones, reaching coast</li>
+                <li><strong>THE DECAY:</strong> Watch civilization's remnants crumble, become more savage, lose humanity</li>
+                <li><strong>THE REBUILD:</strong> Hope-focused campaign, slowly rebuilding community and society</li>
+            </ul>
+
+            <h3>Ending the Campaign</h3>
+
+            <p>Know when your story ends:</p>
+
+            <h4>TRAGIC ENDING:</h4>
+            <ul>
+                <li>Everyone dies but meaningful</li>
+                <li>One survivor carries on their legacy</li>
+                <li>Sacrifice saves others</li>
+            </ul>
+
+            <h4>BITTERSWEET ENDING:</h4>
+            <ul>
+                <li>Safety achieved but at great cost</li>
+                <li>Home established, but changed</li>
+                <li>Survival continues but scarred</li>
+            </ul>
+
+            <h4>HOPEFUL ENDING:</h4>
+            <ul>
+                <li>Community thriving</li>
+                <li>Future for next generation</li>
+                <li>Found purpose beyond survival</li>
+            </ul>
+
+            <h4>AMBIGUOUS ENDING:</h4>
+            <ul>
+                <li>Victory uncertain</li>
+                <li>New threat emerging</li>
+                <li>Journey continues</li>
+            </ul>
+        </div>
+
+        <!-- QUICK REFERENCE -->
+        <div class="section" id="reference">
+            <h2>Quick Reference Tables</h2>
+
+            <h3>Difficulty Scale</h3>
+            <table>
+                <tr>
+                    <th>Task</th>
+                    <th>Target Number</th>
+                </tr>
+                <tr>
+                    <td>Easy (Slow walker, simple task)</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>Normal (Standard threat, routine action)</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>Hard (Fast threat, challenging action)</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>Very Hard (Elite threat, extreme action)</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>Super Hard (Ultimate threat, near-impossible)</td>
+                    <td>6</td>
+                </tr>
+            </table>
+
+            <h3>Resolve Uses</h3>
+            <ul>
+                <li>Start session: 3 Resolve</li>
+                <li>Failed roll: +1 Resolve (once per turn)</li>
+                <li>Roleplay reward: +1 Resolve (GM discretion)</li>
+                <li>Add to any roll (except 1s)</li>
+                <li>Cannot use on Miracle saves</li>
+                <li>5 Resolve: Replenish Plot Armor</li>
+            </ul>
+
+            <h3>Combat Quick Reference</h3>
+            <ul>
+                <li><strong>Attack Roll:</strong> 1d6, need 3+ to hit</li>
+                <li><strong>Armor Save:</strong> Roll 1d6, meet/beat armor number</li>
+                <li><strong>Critical Hit:</strong> Roll 6 = deal 1 Strike and roll again</li>
+                <li><strong>Critical Fail:</strong> Roll 1 = automatic failure</li>
+                <li><strong>Headshot:</strong> Need 5+ to hit walker head (instant kill)</li>
+                <li><strong>Grapple Escape:</strong> Opposed roll, highest wins</li>
+            </ul>
+
+            <h3>Scavenging Results</h3>
+            <table>
+                <tr>
+                    <th>Roll</th>
+                    <th>Result</th>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Nothing, walkers alerted</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Nothing found</td>
+                </tr>
+                <tr>
+                    <td>3-4</td>
+                    <td>Common supplies</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td>Useful find</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td>Jackpot!</td>
+                </tr>
+            </table>
+
+            <h3>Ammunition Status</h3>
+            <table>
+                <tr>
+                    <th>Status</th>
+                    <th>Effect</th>
+                </tr>
+                <tr>
+                    <td>Plentiful</td>
+                    <td>No issues</td>
+                </tr>
+                <tr>
+                    <td>Limited</td>
+                    <td>Bane when using</td>
+                </tr>
+                <tr>
+                    <td>Nearly Empty</td>
+                    <td>4+ to not run out</td>
+                </tr>
+                <tr>
+                    <td>Empty</td>
+                    <td>Cannot use</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- SAMPLE SCENARIO -->
+        <div class="section scenario-box" id="scenario">
+            <h2>Sample Scenario: "The Pharmacy Run"</h2>
+
+            <h3>Setup</h3>
+            <p>The group's safe house has a wounded member. Infection is setting in. They need antibiotics or he dies within 24 hours. The nearest pharmacy is 2 miles away through walker-infested streets.</p>
+
+            <h3>Scene 1: The Decision</h3>
+            <ul>
+                <li>Who goes? (Risk spreaders vs. keeping fighters at home)</li>
+                <li>What route? (Fast but dangerous vs. slow but safer)</li>
+                <li>What time? (Daylight visible vs. nighttime dangerous)</li>
+            </ul>
+
+            <h3>Scene 2: The Journey</h3>
+            <ul>
+                <li>Encounter 1d6 walkers</li>
+                <li>Environmental hazard (collapsed road, fire, etc.)</li>
+                <li>Time pressure building</li>
+            </ul>
+
+            <h3>Scene 3: The Pharmacy</h3>
+            <ul>
+                <li>Already looted, but medicine might remain</li>
+                <li>Scavenging roll with time limit</li>
+                <li>1d6 walkers attracted by noise</li>
+                <li>Optional: Other survivors also scavenging</li>
+            </ul>
+
+            <h3>Scene 4: Complication</h3>
+            <p>Roll <span class="dice-roll">1d6</span>:</p>
+            <ol>
+                <li>Horde approaching, must flee</li>
+                <li>Bandits demand "toll" to leave</li>
+                <li>Pharmacy is raided by larger group</li>
+                <li>Another survivor is bitten, begs for help</li>
+                <li>Find survivor who claims to be doctor</li>
+                <li>Walkers everywhere, must fight through</li>
+            </ol>
+
+            <h3>Scene 5: The Return</h3>
+            <ul>
+                <li>Race against time</li>
+                <li>Wounded survivor's condition worsening</li>
+                <li>Medicine works OR not enough/wrong type</li>
+                <li>Consequences of decisions</li>
+            </ul>
+
+            <h3>Outcomes</h3>
+            <ul>
+                <li><strong>Success:</strong> Survivor lives, group bonds</li>
+                <li><strong>Partial:</strong> Survivor lives but cost paid</li>
+                <li><strong>Failure:</strong> Survivor dies, group must cope</li>
+                <li><strong>Disaster:</strong> Multiple casualties, group fractures</li>
+            </ul>
+        </div>
+
+        <!-- FINAL THOUGHTS -->
+        <div class="section">
+            <h2>Final Thoughts</h2>
+
+            <p>This Walking Dead adaptation of EZd6 focuses on:</p>
+
+            <ul>
+                <li><strong>SURVIVAL HORROR</strong> over heroic fantasy</li>
+                <li><strong>RESOURCE MANAGEMENT</strong> creates tension</li>
+                <li><strong>MORAL CHOICES</strong> define characters</li>
+                <li><strong>HUMAN THREATS</strong> often worse than walkers</li>
+                <li><strong>DEATH IS POSSIBLE</strong> (but meaningful)</li>
+                <li><strong>HOPE VS. DESPAIR</strong> constant balance</li>
+            </ul>
+
+            <div class="warning-box">
+                <h3>REMEMBER:</h3>
+                <ul>
+                    <li>Keep it fast and brutal</li>
+                    <li>Every session should feel dangerous</li>
+                    <li>Make supplies matter</li>
+                    <li>Force impossible choices</li>
+                    <li>Reward creative solutions</li>
+                    <li>End on cliffhangers or quiet moments</li>
+                    <li>Character death should mean something</li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; font-size: 1.3em; margin: 30px 0; font-style: italic;">
+                The dead walk. The living fight. Your story begins now.
+            </p>
+
+            <p style="text-align: center; font-size: 1.5em; font-weight: bold; color: #8b0000;">
+                WHAT WILL YOU DO TO SURVIVE?
+            </p>
+        </div>
+
+        <!-- CHARACTER SHEET -->
+        <div class="section" id="character-sheet">
+            <h2>Character Sheet Template</h2>
+
+            <div class="character-sheet">
+═══════════════════════════════════════════════════════<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TERMINUS: EZd6<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHARACTER SHEET<br>
+═══════════════════════════════════════════════════════<br><br>
+
+NAME: ________________________________<br><br>
+
+SURVIVOR PATH: ______________________&nbsp;&nbsp;BACKGROUND: _____________<br><br>
+
+PATH BOONS: ___________________________________________________<br><br>
+
+PATH ABILITIES: _______________________________________________<br>
+________________________________________________________________<br>
+________________________________________________________________<br><br>
+
+═══════════════════════════════════════════════════════<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HEALTH<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(STRIKES UNTIL DEAD)<br><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span><br><br>
+
+ARMOR SAVE: Roll _____ or higher to ignore 1 Strike<br><br>
+
+MIRACLE SAVE: _____ (resist infection, avoid death)<br>
+═══════════════════════════════════════════════════════<br><br>
+
+SKILLS (Choose Two/Three):<br>
+1. _________________________________<br>
+2. _________________________________<br>
+3. _________________________________<br><br>
+
+ASPECTS (Choose Two):<br>
+1. _________________________________<br>
+2. _________________________________<br><br>
+
+MEMENTO: _________________________ (Once per session = 2 Resolve)<br>
+═══════════════════════════════════════════════════════<br><br>
+
+Resolve: <span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span>&nbsp;<span class="checkbox"></span><br>
+(Start with 3, earn on failed rolls, spend to boost rolls)<br><br>
+
+Plot Armor: <span class="checkbox"></span>&nbsp;(Re-roll any die, replenish for 5 Resolve)<br>
+═══════════════════════════════════════════════════════<br><br>
+
+EQUIPMENT:<br><br>
+
+PRIMARY WEAPON: ________________________________________<br><br>
+
+SECONDARY WEAPON/TOOL: _________________________________<br><br>
+
+SURVIVAL GEAR:<br>
+_________________________________________________________<br>
+_________________________________________________________<br>
+_________________________________________________________<br>
+_________________________________________________________<br>
+_________________________________________________________<br><br>
+
+AMMUNITION: ☐ Plentiful&nbsp;&nbsp;☐ Limited&nbsp;&nbsp;☐ Nearly Empty&nbsp;&nbsp;☐ Empty<br><br>
+
+FOOD RATIONS: _______&nbsp;&nbsp;WATER: _______&nbsp;&nbsp;MEDICINE: _______<br>
+═══════════════════════════════════════════════════════<br><br>
+
+NOTES & RELATIONSHIPS:<br>
+________________________________________________________________<br>
+________________________________________________________________<br>
+________________________________________________________________<br>
+________________________________________________________________<br>
+________________________________________________________________<br>
+═══════════════════════════════════════════════════════
+            </div>
+        </div>
+
+        <div class="footer">
+            <hr>
+            <p><strong>END OF GUIDE</strong></p>
+            <p style="font-size: 1.2em; margin-top: 20px;"><em>The dead don't rest. Neither should you.</em></p>
+        </div>
+    </div>
+
+    <script>
+        function toggleNav() {
+            var navContent = document.getElementById('navContent');
+            if (navContent.classList.contains('collapsed')) {
+                navContent.classList.remove('collapsed');
+            } else {
+                navContent.classList.add('collapsed');
+            }
+        }
+
+        // Start with navigation collapsed on smaller screens
+        if (window.innerWidth <= 1024) {
+            document.getElementById('navContent').classList.add('collapsed');
+        }
+    </script>
+</body>
+</html>
