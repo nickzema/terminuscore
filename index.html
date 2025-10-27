@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lion & Dragon Character Sheet</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Cinzel', 'Times New Roman', serif;
+            background: #f4e8d8;
+            padding: 20px;
+            color: #2c1810;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fff;
+            border: 8px solid #2c1810;
+            box-shadow: 0 0 20px rgba(0,0,0,0.3);
+        }
+        
+        .page {
+            padding: 30px;
+            position: relative;
+        }
+        
+        .corner-decoration {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #2c1810;
+            background: #fff;
+        }
+        
+        .corner-decoration.top-left { top: 10px; left: 10px; }
+        .corner-decoration.top-right { top: 10px; right: 10px; }
+        .corner-decoration.bottom-left { bottom: 10px; left: 10px; }
+        .corner-decoration.bottom-right { bottom: 10px; right: 10px; }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #2c1810;
+            padding-bottom: 15px;
+        }
+        
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .character-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .info-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        label {
+            font-size: 11px;
+            text-transform: lowercase;
+            font-variant: small-caps;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 3px;
+        }
+        
+        input[type="text"],
+        input[type="number"],
+        textarea,
+        select {
+            border: none;
+            border-bottom: 2px solid #2c1810;
+            background: transparent;
+            font-family: inherit;
+            font-size: 14px;
+            padding: 5px;
+            width: 100%;
+        }
+        
+        input[type="text"]:focus,
+        input[type="number"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-bottom-color: #8b4513;
+        }
+
+        /* Styling for narrower inputs */
+        .info-group.narrow input {
+            text-align: center;
+        }
+
+        /* Ability Scores Section */
+        .abilities {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #2c1810;
+            position: relative;
+            padding-top: 35px; /* Added padding to make space for the main title */
+        }
+        
+        /* Ability Scores Section Title Styling */
+        .abilities h3 {
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: bold;
+            background: #fff;
+            padding: 0 10px;
+            letter-spacing: 1px;
+            color: #2c1810;
+            white-space: nowrap;
+        }
+        
+        .ability {
+            text-align: center;
+            position: relative;
+            padding-bottom: 25px; /* Space for the modifier container */
+        }
+        
+        .ability-name {
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        
+        .ability-flower {
+            width: 70px;
+            height: 70px;
+            margin: 5px auto 0;
+            border: 3px solid #2c1810; 
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+        }
+        
+        .ability-flower input {
+            width: 100%; /* Take full width for centering */
+            text-align: center; /* CENTERED SCORE NUMBER */
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            background: transparent;
+            padding: 0; 
+            font-family: 'Cinzel', serif;
+            color: #2c1810;
+        }
+        
+        .modifier-container {
+            position: absolute;
+            bottom: -5px; 
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding-left: 20px; /* Shift the entire container group right slightly */
+        }
+
+        .modifier-label {
+            font-size: 10px;
+            font-weight: bold;
+            text-transform: lowercase;
+            font-variant: small-caps;
+            margin-right: 2px; /* Small space between 'mod.' and circle */
+            z-index: 5;
+            color: #2c1810;
+        }
+        
+        .modifier {
+            /* Positioning relative to the modifier-container */
+            position: relative; 
+            width: 40px; 
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #2c1810;
+            background: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 10; 
+            
+            /* Overlap adjustment */
+            margin-left: 0;
+        }
+        
+        .modifier input {
+            width: 100%;
+            text-align: center;
+            font-size: 14px;
+            font-weight: bold;
+            color: #2c1810;
+            border: none;
+            background: transparent;
+            padding: 0;
+        }
+        
+        /* COMBAT SECTION STYLING */
+        .combat-section {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #2c1810;
+            position: relative;
+            padding-top: 35px;
+        }
+        
+        .combat-section::before {
+            content: "COMBAT";
+            position: absolute;
+            top: -16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            text-transform: uppercase;
+            font-weight: bold;
+            background: #fff;
+            padding: 0 10px;
+            letter-spacing: 1px;
+            color: #2c1810;
+            white-space: nowrap;
+        }
+
+        .stat-box {
+            text-align: center;
+            border: 3px solid #2c1810;
+            background: #f9f9f9;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 5px;
+            height: 80px;
+            margin-bottom: 5px;
+        }
+        
+        .stat-box label {
+            font-size: 9px;
+            margin-bottom: 3px;
+            text-transform: uppercase;
+        }
+        
+        .stat-box input {
+            width: 90%;
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            background: transparent;
+            padding: 0;
+        }
+        
+        .combat-group {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .combat-group input {
+            padding: 2px 5px;
+            font-size: 12px;
+        }
+        /* END COMBAT STYLING */
+
+        .saving-throw {
+            padding: 15px;
+            border: 2px solid #2c1810;
+            margin: 20px 0;
+        }
+        
+        .weapons-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        
+        .weapons-table th,
+        .weapons-table td {
+            border: 1px solid #2c1810;
+            padding: 8px;
+            text-align: left;
+        }
+
+        /* Styling for the Magic/Spells table */
+        .spells-table th:nth-child(1),
+        .spells-table td:nth-child(1) {
+            width: 60px;
+            text-align: center;
+        }
+        .spells-table td:nth-child(1) input[type="checkbox"] {
+            margin: 0;
+            width: auto;
+            border-bottom: none;
+        }
+        .spells-table th:nth-child(3),
+        .spells-table td:nth-child(3) {
+            width: 80px;
+            text-align: center;
+        }
+        .spells-table input {
+            padding: 0;
+        }
+        
+        .weapons-table th, .spells-table th {
+            background: #f0f0f0;
+            font-size: 11px;
+            text-transform: lowercase;
+            font-variant: small-caps;
+        }
+        
+        .weapons-table input, .spells-table input {
+            border: none;
+            background: transparent;
+            width: 100%;
+        }
+        
+        .text-section {
+            margin: 15px 0;
+            padding: 15px;
+            border: 2px solid #2c1810;
+        }
+        
+        .text-section h3 {
+            font-size: 14px;
+            text-transform: lowercase;
+            font-variant: small-caps;
+            margin-bottom: 10px;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+            border: 1px solid #2c1810;
+            padding: 10px;
+        }
+
+        /* Encumbrance Styling */
+        .equipment-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            border: 1px solid #2c1810;
+            padding: 5px;
+        }
+        .equipment-slot {
+            display: flex;
+            align-items: center;
+            border-bottom: 1px dotted #8b451350;
+            padding: 2px 0;
+        }
+        .equipment-slot:last-of-type {
+            border-bottom: none;
+        }
+        .equipment-slot label {
+            width: 30px; 
+            margin: 0 5px 0 0; 
+            text-align: right;
+            font-weight: normal;
+        }
+        
+        /* Adjusted label width for bonus slots */
+        .equipment-slot.bonus-slot label {
+            width: 30px; 
+            text-align: right; 
+            font-variant: small-caps; 
+            font-size: 11px;
+            font-weight: bold;
+            
+        }
+
+        .encumbrance-divider {
+            text-align: center;
+            font-size: 10px;
+            font-variant: small-caps;
+            padding: 5px 0;
+            border-top: 2px dashed #8b4513;
+            border-bottom: 2px dashed #8b4513;
+            background: #fcf6ef;
+            color: #8b4513;
+            margin: 5px 0;
+        }
+        
+        .wealth-section {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .family-crest-box {
+            width: 100%;
+            height: 300px; /* Increased Height */
+            border: 2px solid #2c1810;
+            background-color: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-style: italic;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .page-break {
+            border-top: 3px dashed #2c1810;
+            margin: 30px 0;
+        }
+        
+        /* New vertical fixed button wrapper */
+        .fixed-button-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px; /* Spacing between buttons */
+            z-index: 1000;
+        }
+
+        .save-button, .load-button, .print-button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-family: inherit;
+            font-size: 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            color: white;
+            border: none;
+            text-align: center; /* CENTERED BUTTON TEXT */
+            width: 170px; /* Fixed width for consistent stack */
+            white-space: nowrap; /* Prevent button text from wrapping */
+        }
+
+        .save-button {
+            background: #8b4513;
+            order: 2; /* Save Character should be second */
+        }
+        
+        .save-button:hover {
+            background: #a0522d;
+        }
+        
+        .load-button {
+            background: #2c5f2d;
+            order: 1; /* Load Character should be first (top) */
+        }
+        
+        .load-button:hover {
+            background: #3a7a3b;
+        }
+
+        .print-button {
+            background: #4682b4;
+            order: 3; /* Print/PDF should be third (bottom) */
+        }
+
+        /* --- PRINT STYLES --- */
+        @media print {
+            .fixed-button-container {
+                display: none;
+            }
+            .page-break {
+                height: 0;
+                margin: 0;
+                border: none;
+            }
+            .container {
+                box-shadow: none;
+                border: none;
+            }
+            /* Enforce page breaks before major sections to keep them clean */
+            .abilities, .combat-section, .saving-throw, .text-section, .page:nth-child(2) > div:nth-child(3) > div {
+                page-break-before: auto;
+                break-before: auto;
+            }
+            .page:nth-child(2) {
+                page-break-before: always;
+                break-before: page;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="page">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            
+            <div class="header">
+                <h1>Lion & Dragon</h1>
+                <div class="subtitle">Player Character Record</div>
+            </div>
+            
+            <div class="character-info">
+                <div class="info-group">
+                    <label>name</label>
+                    <input type="text" id="name" placeholder="Character Name">
+                </div>
+                <div class="info-group">
+                    <label>player</label>
+                    <input type="text" id="player" placeholder="Player Name">
+                </div>
+            </div>
+            
+            <div class="info-row">
+                <div class="info-group" style="flex: 1.5;">
+                    <label>social class</label>
+                    <input type="text" id="social-class" placeholder="Knight, Peasant, Villen">
+                </div>
+                <div class="info-group" style="flex: 1.5;">
+                    <label>ethnicity</label>
+                    <input type="text" id="ethnicity" placeholder="Briton, Saxon, Scot">
+                </div>
+                <div class="info-group" style="flex: 2;">
+                    <label>home territory</label>
+                    <input type="text" id="home-territory" placeholder="Albyion, Cumbraland, Wessex">
+                </div>
+            </div>
+            
+            <div class="info-row">
+                <div class="info-group" style="flex: 2.5;">
+                    <label>class</label>
+                    <input type="text" id="class" placeholder="Character Class">
+                </div>
+                <div class="info-group narrow" style="flex: 1;">
+                    <label>level</label>
+                    <input type="number" id="level" placeholder="1">
+                </div>
+                <div class="info-group" style="flex: 1.5;">
+                    <label>rank or title</label>
+                    <input type="text" id="title" placeholder="Initiate, Lord, etc...">
+                </div>
+                <div class="info-group narrow" style="flex: 1.5;">
+                    <label>alignment</label>
+                    <input type="text" id="alignment" placeholder="Law/Neu/Cha">
+                </div>
+            </div>
+            
+            <div class="abilities">
+                <h3>Ability Scores</h3> 
+                <div class="ability">
+                    <div class="ability-name">STRENGTH</div>
+                    <div class="ability-flower">
+                        <input type="number" id="str" placeholder="10">
+                    </div>
+                    <div class="modifier-container">
+                        <span class="modifier-label">mod.</span>
+                        <div class="modifier">
+                            <input type="text" id="str-mod" placeholder="+0" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">DEXTERITY</div>
+                    <div class="ability-flower">
+                        <input type="number" id="dex" placeholder="10">
+                    </div>
+                    <div class="modifier-container">
+                        <span class="modifier-label">mod.</span>
+                        <div class="modifier">
+                            <input type="text" id="dex-mod" placeholder="+0" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">CONSTITUTION</div>
+                    <div class="ability-flower">
+                        <input type="number" id="con" placeholder="10">
+                    </div>
+                    <div class="modifier-container">
+                        <span class="modifier-label">mod.</span>
+                        <div class="modifier">
+                            <input type="text" id="con-mod" placeholder="+0" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">INTELLIGENCE</div>
+                    <div class="ability-flower">
+                        <input type="number" id="int" placeholder="10">
+                    </div>
+                    <div class="modifier-container">
+                        <span class="modifier-label">mod.</span>
+                        <div class="modifier">
+                            <input type="text" id="int-mod" placeholder="+0" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">WISDOM</div>
+                    <div class="ability-flower">
+                        <input type="number" id="wis" placeholder="10">
+                    </div>
+                    <div class="modifier-container">
+                        <span class="modifier-label">mod.</span>
+                        <div class="modifier">
+                            <input type="text" id="wis-mod" placeholder="+0" readonly>
+                        </div>
+                    </div>
+                </div>
+                <div class="ability">
+                    <div class="ability-name">CHARISMA</div>
+                    <div class="ability-flower">
+                        <input type="number" id="chr" placeholder="10">
+                    </div>
+                    <div class="modifier-container">
+                        <span class="modifier-label">mod.</span>
+                        <div class="modifier">
+                            <input type="text" id="chr-mod" placeholder="+0" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="combat-section">
+                
+                
+
+<div class="stat-box">
+                    <label>armor class</label>
+                    <input type="number" id="armor-class" placeholder="10">
+                </div>
+                <div class="stat-box">
+                    <label>max hit points</label>
+                    <input type="number" id="max-hp" placeholder="6">
+                </div>
+                <div class="stat-box">
+                    <label>base attack bonus</label>
+                    <input type="text" id="base-attack" placeholder="+0">
+                </div>
+                <div class="stat-box">
+                    <label>initiative bonus</label>
+                    <input type="text" id="initiative" placeholder="+0">
+                </div>
+                <div class="stat-box">
+                    <label>base movement rate</label>
+                    <input type="text" id="base-movement" placeholder="120' (40')">
+                </div>
+
+                <div class="combat-group">
+                    <label>shield</label>
+                    <input type="text" id="shield" placeholder="None">
+                    <label>armor type</label>
+                    <input type="text" id="armor" placeholder="Armor Type">
+                </div>
+                <div class="combat-group">
+                    <label>current hp</label>
+                    <input type="text" id="current-hp" placeholder="6">
+                    <label>current load</label>
+                    <input type="number" id="current-load" placeholder="0">
+                </div>
+                <div class="combat-group">
+                    <label>melee (STR)</label>
+                    <input type="text" id="melee" placeholder="+0">
+                    <label>missile (DEX)</label>
+                        <input type="text" id="missile" placeholder="+0">
+                </div>
+                <div class="combat-group">
+                    <label>current xp</label>
+                    <input type="text" id="xp" placeholder="0">
+                    <label>xp needed for next level</label>
+                    <input type="text" id="next-level" placeholder="XP needed">
+                </div>
+                <div class="combat-group">
+                    <label>total slots</label>
+                    <input type="number" id="slots-total" placeholder="23" value="23">
+                    <label>total move rate</label>
+                    <input type="text" id="total-movement" placeholder="120' (40')">
+                </div>
+
+                <div class="combat-group" style="grid-column: 1 / 3;">
+                    <label>combat notes:</label>
+                    <textarea id="combat-notes" rows="2"></textarea>
+                </div>
+                <div class="combat-group" style="grid-column: 3 / -1;">
+                    <label>injuries and effects:</label>
+                    <textarea id="injuries" rows="2"></textarea>
+                </div>
+            </div>
+            <div class="saving-throw">
+                <label>saving throw</label>
+                <div style="display: grid; grid-template-columns: 1fr 3fr; gap: 10px; align-items: center;">
+                    <div>
+                        <input type="number" id="save-base" placeholder="16" style="width: 60px; font-size: 24px; text-align: center;">
+                        <div style="font-size: 10px; text-align: center;">(16 - Cha Mod.)</div>
+                    </div>
+                    <div>
+                        <label>other modifiers:</label>
+                        <div style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px;">
+                            <input type="text" id="mod1" placeholder="[ ]">
+                            <input type="text" id="mod2" placeholder="[ ]">
+                            <input type="text" id="mod3" placeholder="[ ]">
+                            <input type="text" id="mod4" placeholder="[ ]">
+                            <input type="text" id="mod5" placeholder="[ ]">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="text-section">
+                <h3>class benefits/abilities/skills</h3>
+                <textarea id="class-abilities" rows="4"></textarea>
+                <div style="margin-top: 10px;">
+                    <label>prior event:</label>
+                    <textarea id="prior-event" rows="2"></textarea>
+                </div>
+            </div>
+            
+            <div class="text-section">
+                <h3>arms</h3>
+                <table class="weapons-table">
+                    <thead>
+                        <tr>
+                            <th>weapon</th>
+                            <th>dmg</th>
+                            <th>s/m/l range</th>
+                            <th>special</th>
+                        </tr>
+                    </thead>
+                    <tbody id="weapons-body">
+                        <tr>
+                            <td><input type="text" placeholder="Weapon name"></td>
+                            <td><input type="text" placeholder="1d6" style="width: 50px;"></td>
+                            <td><input type="text" placeholder="10/20/30"></td>
+                            <td><input type="text" placeholder="Special properties"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text" style="width: 50px;"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text" style="width: 50px;"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                        <tr>
+                            <td><input type="text"></td>
+                            <td><input type="text" style="width: 50px;"></td>
+                            <td><input type="text"></td>
+                            <td><input type="text"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div style="margin-top: 10px;">
+                    <label>weapon in hand:</label>
+                    <input type="text" id="weapon-in-hand" placeholder="Current weapon">
+                </div>
+            </div>
+            
+            <div class="text-section">
+                <h3>magic, miracles, & spells</h3>
+                <table class="weapons-table spells-table">
+                    <thead>
+                        <tr>
+                            <th>prepared</th>
+                            <th>name of spell/miracle</th>
+                            <th>DC</th>
+                        </tr>
+                    </thead>
+                    <tbody id="spells-body">
+                        <tr><td><input type="checkbox" id="spell-prep-1"></td><td><input type="text"></td><td><input type="number" placeholder="15"></td></tr>
+                        <tr><td><input type="checkbox" id="spell-prep-2"></td><td><input type="text"></td><td><input type="number"></td></tr>
+                        <tr><td><input type="checkbox" id="spell-prep-3"></td><td><input type="text"></td><td><input type="number"></td></tr>
+                        <tr><td><input type="checkbox" id="spell-prep-4"></td><td><input type="text"></td><td><input type="number"></td></tr>
+                        <tr><td><input type="checkbox" id="spell-prep-5"></td><td><input type="text"></td><td><input type="number"></td></tr>
+                        <tr><td><input type="checkbox" id="spell-prep-6"></td><td><input type="text"></td><td><input type="number"></td></tr>
+                        <tr><td><input type="checkbox" id="spell-prep-7"></td><td><input type="text"></td><td><input type="number"></td></tr>
+                        <tr><td><input type="checkbox" id="spell-prep-8"></td><td><input type="text"></td><td><input type="number"></td></tr>
+                        <tr><td><input type="checkbox" id="spell-prep-9"></td><td><input type="text"></td><td><input type="number"></td></tr>
+                        <tr><td><input type="checkbox" id="spell-prep-10"></td><td><input type="text"></td><td><input type="number"></td></tr>
+                    </tbody>
+                </table>
+                <label style="margin-top: 10px;">notes/grimoires/artifacts:</label>
+                <textarea id="magical-items" rows="4"></textarea>
+            </div>
+            
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+        </div>
+        
+        <div class="page-break"></div>
+        
+        <div class="page">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            
+            <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 20px;">
+                <div>
+                    <div class="text-section">
+                        <h3>equipment (item slots)</h3>
+                        <div class="equipment-list" id="equipment-slots">
+                            <div class="equipment-slot bonus-slot">
+                                <label></label>
+                                <input type="text" data-slot="B3" placeholder="Bonus Slot 3 (for STR 18)">
+                            </div>
+                            <div class="equipment-slot bonus-slot">
+                                <label></label>
+                                <input type="text" data-slot="B2" placeholder="Bonus Slot 2 (for STR 17+)">
+                            </div>
+                            <div class="equipment-slot bonus-slot">
+                                <label></label>
+                                <input type="text" data-slot="B1" placeholder="Bonus Slot 1 (for STR 16+)">
+                            </div>
+                            
+                            <div class="equipment-slot">
+                                <label>1:</label>
+                                <input type="text" data-slot="1">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>2:</label>
+                                <input type="text" data-slot="2">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>3:</label>
+                                <input type="text" data-slot="3">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>4:</label>
+                                <input type="text" data-slot="4">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>5:</label>
+                                <input type="text" data-slot="5">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>6:</label>
+                                <input type="text" data-slot="6">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>7:</label>
+                                <input type="text" data-slot="7">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>8:</label>
+                                <input type="text" data-slot="8">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>9:</label>
+                                <input type="text" data-slot="9">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>10:</label>
+                                <input type="text" data-slot="10">
+                            </div>
+                            
+                            <div class="encumbrance-divider">Slot 11: Movement Rate -5'</div>
+
+                            <div class="equipment-slot">
+                                <label>11:</label>
+                                <input type="text" data-slot="11">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>12:</label>
+                                <input type="text" data-slot="12">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>13:</label>
+                                <input type="text" data-slot="13">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>14:</label>
+                                <input type="text" data-slot="14">
+                            </div>
+
+                            <div class="encumbrance-divider">Slot 15: Movement Rate -10' total</div>
+
+                            <div class="equipment-slot">
+                                <label>15:</label>
+                                <input type="text" data-slot="15">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>16:</label>
+                                <input type="text" data-slot="16">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>17:</label>
+                                <input type="text" data-slot="17">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>18:</label>
+                                <input type="text" data-slot="18">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>19:</label>
+                                <input type="text" data-slot="19">
+                            </div>
+                            <div class="equipment-slot">
+                                <label>20:</label>
+                                <input type="text" data-slot="20">
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="text-section" style="margin-top: -5px;">
+                        <h3>small stuff</h3>
+                        <textarea id="small-stuff" rows="4" placeholder="Clothing, rings, necklaces, 10-foot poles, etc. These items do not take up encumbrance slots."></textarea>
+                    </div>
+
+                    <div class="text-section">
+                        <h3>retainers</h3>
+                        <textarea id="retainers" rows="8"></textarea>
+                    </div>
+                    
+                    <div class="text-section">
+                        <h3 style="margin-top: 15px;">mount</h3>
+                        <textarea id="mount" rows="4"></textarea>
+                    </div>
+
+                    <div class="text-section">
+                        <h3>personal honors</h3>
+                        <textarea id="honors" rows="2" placeholder="Personal achievements, knighthoods, awards"></textarea>
+                    </div>
+                    
+                    <div class="text-section">
+                        <h3>debts & obligations</h3>
+                        <textarea id="debts" rows="2" placeholder="Oaths sworn, favors owed, financial debts"></textarea>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="text-section">
+                        <h3>wealth</h3>
+                        <div class="wealth-section" style="grid-template-columns: 1fr;">
+                            <div>
+                                <label>£ (Pounds):</label>
+                                <input type="text" id="pounds" placeholder="0">
+                            </div>
+                            <div>
+                                <label>sh (Shillings):</label>
+                                <input type="text" id="shillings" placeholder="0">
+                            </div>
+                            <div>
+                                <label>p (Pence):</label>
+                                <input type="text" id="pence" placeholder="0">
+                            </div>
+                        </div>
+                        <p style="font-size: 10px; margin-top: 10px; font-style: italic;">Note: Every 1,000 coins (or equivalent bulk) occupies 1 Encumbrance Slot.</p>
+                        
+                        <h3 style="margin-top: 15px;">other wealth/goods</h3>
+                        <input type="text" id="other-wealth" placeholder="Gems, jewelry, trade goods, etc.">
+                    </div>
+
+                    <div class="text-section">
+                        <h3>family crest</h3>
+                        <div class="family-crest-box" id="family-crest">
+                            Space for drawing/pasting a family crest or insignia.
+                        </div>
+                        
+                        <h3>family lineage</h3>
+                        <label>family name</label>
+                        <input type="text" id="family" placeholder="Family name">
+                        <label>order of precedence</label>
+                        <input type="text" id="precedence" placeholder="e.g., 3rd son, eldest daughter">
+                        <label>heir status</label>
+                        <input type="text" id="heir" placeholder="e.g., heir to estate, not in line">
+                        <label>social standing</label>
+                        <input type="text" id="standing" placeholder="e.g., minor nobility, merchant class">
+                        
+                        <h3 style="margin-top: 20px;">power & influence</h3>
+                        <div style="display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: center;">
+                            <label style="margin: 0;">military:</label>
+                            <input type="text" id="military" placeholder="e.g., command of local militia">
+                            <label style="margin: 0;">financial:</label>
+                            <input type="text" id="financial" placeholder="e.g., trade connections, land income">
+                            <label style="margin: 0;">political:</label>
+                            <input type="text" id="political" placeholder="e.g., seat on council, court favor">
+                        </div>
+                        
+                        <h3 style="margin-top: 20px;">important ancestors</h3>
+                        <textarea id="ancestors" rows="2" placeholder="Notable family members and their achievements"></textarea>
+                        
+                        <h3 style="margin-top: 15px;">blood relations & alliances</h3>
+                        <textarea id="relations" rows="2" placeholder="Family connections, marriages, allies"></textarea>
+                        
+                        <h3 style="margin-top: 15px;">family enemies</h3>
+                        <textarea id="enemies" rows="2" placeholder="Rival families, feuds, conflicts"></textarea>
+                        
+                        <h3 style="margin-top: 15px;">ancestral titles & land holdings</h3>
+                        <textarea id="titles" rows="2" placeholder="Inherited titles, estates, properties"></textarea>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+        </div>
+    </div>
+    
+    <div class="fixed-button-container">
+        <button class="load-button" onclick="loadCharacter()">Load Character</button>
+        <button class="save-button" onclick="saveCharacter()">Save Character</button>
+        <button class="print-button" onclick="printCharacter()">Print/PDF</button>
+    </div>
+    
+    <script>
+        // OSR Modifier Logic
+        function calculateModifier(score) {
+            const num = parseInt(score);
+            if (isNaN(num)) return '+0';
+
+            if (num >= 18) return '+3';
+            if (num >= 16) return '+2';
+            if (num >= 13) return '+1';
+            if (num >= 9) return '+0';
+            if (num >= 6) return '-1';
+            if (num >= 4) return '-2';
+            return '-3'; // For score 3
+        }
+
+        // Apply OSR modifier calculation to all abilities
+        ['str', 'dex', 'con', 'int', 'wis', 'chr'].forEach(ability => {
+            const input = document.getElementById(ability);
+            const modInput = document.getElementById(ability + '-mod');
+            
+            // Initial calculation on load
+            modInput.value = calculateModifier(input.value);
+
+            // Re-calculate on input change
+            input.addEventListener('input', () => {
+                modInput.value = calculateModifier(input.value);
+            });
+        });
+
+        // Save functionality (handling checkboxes and data attributes)
+        function saveCharacter() {
+            const characterData = {};
+            const inputs = document.querySelectorAll('input, textarea, select');
+            
+            inputs.forEach(input => {
+                let id = input.id;
+                
+                if (input.dataset.slot) {
+                    id = `slot-${input.dataset.slot}`;
+                } else if (!id) {
+                    return;
+                }
+
+                if (input.type === 'checkbox') {
+                    characterData[id] = input.checked;
+                } else {
+                    characterData[id] = input.value;
+                }
+            });
+            
+            const characterName = document.getElementById('name').value || 'Unnamed Character';
+            const saveData = JSON.stringify(characterData);
+            
+            // Create download
+            const blob = new Blob([saveData], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${characterName.replace(/[^a-z0-9]/gi, '_')}_LionDragon.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            alert('Character saved! Download started.');
+        }
+        
+        // Load functionality (handling checkboxes and data attributes)
+        function loadCharacter() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = event => {
+                    try {
+                        const characterData = JSON.parse(event.target.result);
+                        
+                        // Load all fields
+                        Object.keys(characterData).forEach(id => {
+                            let element;
+                            
+                            if (id.startsWith('slot-')) {
+                                const slotNumber = id.split('-')[1];
+                                element = document.querySelector(`input[data-slot="${slotNumber}"]`);
+                            } else {
+                                element = document.getElementById(id);
+                            }
+
+                            if (element) {
+                                if (element.type === 'checkbox') {
+                                    element.checked = characterData[id];
+                                } else {
+                                    element.value = characterData[id];
+                                }
+                            }
+                        });
+                        
+                        // Re-run modifier calculation after loading
+                        ['str', 'dex', 'con', 'int', 'wis', 'chr'].forEach(ability => {
+                            const input = document.getElementById(ability);
+                            const modInput = document.getElementById(ability + '-mod');
+                            modInput.value = calculateModifier(input.value);
+                        });
+
+                        alert('Character loaded successfully!');
+                    } catch (error) {
+                        alert('Error loading character file. Please check the file format.');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        function printCharacter() {
+            window.print();
+        }
+    </script>
+</body>
+</html>
